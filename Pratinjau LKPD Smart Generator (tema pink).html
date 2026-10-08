@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pratinjau LKPD Smart Generator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --p50:#fdf2f8;--p100:#fce7f3;--p200:#fbcfe8;--p300:#f9a8d4;--p400:#f472b6;--p500:#ec4899;--p600:#db2777;--p700:#be185d;--p800:#9d174d;--p950:#500724;
+  --surface:#fff7fb;--card:#fff;--ink:#3b0a24;--muted:#7a4a62;--shadow:0 4px 20px -4px rgba(219,39,119,.15);
+}
+:root:not([data-theme="light"]){}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--surface:#2a0f1d;--card:#3a1527;--ink:#fde7f1;--muted:#e0a9c4;--p50:#3a1527;--p100:#4d1c35;--p200:#6b2748;}
+}
+:root[data-theme="dark"]{--surface:#2a0f1d;--card:#3a1527;--ink:#fde7f1;--muted:#e0a9c4;--p50:#3a1527;--p100:#4d1c35;--p200:#6b2748;}
+*{box-sizing:border-box}
+html,body{height:100%}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--surface);color:var(--ink);font-family:"Plus Jakarta Sans",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--p500);outline-offset:2px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;display:flex;align-items:center;gap:12px;height:56px;padding:0 16px;background:color-mix(in srgb,var(--card) 85%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--p200);box-shadow:var(--shadow)}
+header h1{margin:0;font-size:18px;font-weight:800;color:var(--p700)}
+:root[data-theme="dark"] header h1,:root:not([data-theme="light"]) header h1{}
+#menu{display:none;border:0;background:none;padding:8px;border-radius:8px;color:var(--p700);cursor:pointer}
+#menu:hover{background:var(--p100)}
+.layout{display:flex;min-height:calc(100% - 56px)}
+aside{width:256px;flex:none;padding:16px 12px;background:var(--p50);border-right:1px solid var(--p200);display:flex;flex-direction:column;gap:4px}
+aside button{all:unset;box-sizing:border-box;cursor:pointer;padding:10px 16px;border-radius:12px;font-size:14px;font-weight:600;color:var(--ink);transition:.15s}
+aside button:hover{background:var(--p100);color:var(--p800)}
+aside button.on{background:var(--p600);color:#fff}
+main{flex:1;min-width:0;padding:32px}
+.wrap{max-width:900px;margin:0 auto}
+h2{margin:0;font-size:28px;font-weight:800;color:var(--p800)}
+:root[data-theme="dark"] h2,:root[data-theme="dark"] h3{color:var(--p300)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) h2,:root:not([data-theme="light"]) h3{color:var(--p300)}}
+h3{margin:0;font-size:16px;font-weight:700;color:var(--p800)}
+.muted{color:var(--muted);font-size:14px;line-height:1.55}
+.grid{display:grid;gap:16px;grid-template-columns:1fr 1fr;margin-top:24px}
+.card{background:var(--card);border:1px solid var(--p200);border-radius:16px;padding:20px;box-shadow:var(--shadow);transition:.15s}
+.card.hv:hover{border-color:var(--p400);box-shadow:0 8px 24px -6px rgba(219,39,119,.25)}
+.btn{display:inline-flex;align-items:center;justify-content:center;border:0;cursor:pointer;border-radius:12px;padding:10px 16px;font:600 14px "Plus Jakarta Sans",sans-serif;background:var(--p600);color:#fff;transition:.15s;margin-top:16px}
+.btn:hover{background:var(--p700)}
+.btn.sec{background:var(--card);color:var(--p700);border:1px solid var(--p300)}
+.btn.sec:hover{background:var(--p50)}
+:root[data-theme="dark"] .btn.sec{color:var(--p300)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .btn.sec{color:var(--p300)}}
+.btn.full{width:100%}
+label{display:block;font-size:14px;font-weight:600;margin-top:14px}
+input,select{width:100%;margin-top:4px;padding:10px 12px;border-radius:12px;border:1px solid var(--p200);background:var(--card);color:var(--ink);font:400 14px "Plus Jakarta Sans",sans-serif}
+input:focus,select:focus{outline:none;border-color:var(--p500);box-shadow:0 0 0 3px color-mix(in srgb,var(--p400) 35%,transparent)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+ol{margin:16px 0 0;padding:0;list-style:none;display:grid;gap:10px}
+li.q{background:var(--p50);border-radius:12px;padding:12px;font-size:14px}
+li.q b{color:var(--p700)}
+:root[data-theme="dark"] li.q b{color:var(--p300)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) li.q b{color:var(--p300)}}
+.note{margin-top:12px;background:var(--p50);border-radius:12px;padding:12px;font-size:14px;color:var(--p800)}
+:root[data-theme="dark"] .note{color:var(--p200)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .note{color:var(--p200)}}
+.page{display:none}.page.on{display:block}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:1000px;margin:0 auto}
+.scrim{display:none}
+@media (max-width:767px){
+  #menu{display:block}
+  aside{position:fixed;top:calc(56px + env(safe-area-inset-top,0px));bottom:0;left:0;z-index:40;transform:translateX(-100%);transition:transform .2s}
+  aside.open{transform:none}
+  .scrim.open{display:block;position:fixed;inset:0;z-index:35;background:rgba(80,7,36,.4)}
+  main{padding:20px 16px}
+  .grid,.two-col{grid-template-columns:1fr}
+  h2{font-size:24px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <button id="menu" aria-label="Buka menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  <h1>LKPD Smart Generator</h1>
+</header>
+<div class="layout">
+  <div class="scrim" id="scrim"></div>
+  <aside id="side">
+    <button class="on" data-go="home">Beranda</button>
+    <button data-go="buat">Buat LKPD</button>
+    <button data-go="siswa">Portal siswa</button>
+  </aside>
+  <main>
+    <section class="page on" id="home"><div class="wrap">
+      <h2>Selamat datang</h2>
+      <p class="muted" style="max-width:55ch;margin-top:8px">Buat Lembar Kerja Peserta Didik dengan cepat, lalu bagikan ke siswa.</p>
+      <div class="grid">
+        <div class="card hv"><h3>Guru</h3><p class="muted" style="margin:4px 0 0">Susun LKPD sesuai mata pelajaran dan topik.</p><button class="btn" data-go="buat">Buat LKPD</button></div>
+        <div class="card hv"><h3>Siswa</h3><p class="muted" style="margin:4px 0 0">Masukkan kode dari guru untuk membuka LKPD.</p><button class="btn sec" data-go="siswa">Buka portal siswa</button></div>
+      </div>
+    </div></section>
+
+    <section class="page" id="buat"><div class="two-col">
+      <div class="card">
+        <h2 style="font-size:20px">Buat LKPD</h2>
+        <form id="f">
+          <label>Mata pelajaran<input id="mapel" required placeholder="Contoh: IPA"></label>
+          <label>Kelas<input id="kelas" required placeholder="Contoh: VII"></label>
+          <label>Topik<input id="topik" required placeholder="Contoh: Sistem pencernaan"></label>
+          <div class="two">
+            <label>Jumlah soal<input id="jml" type="number" min="1" max="30" value="5"></label>
+            <label>Tipe soal<select id="tipe"><option value="Pilihan ganda">Pilihan ganda</option><option value="Isian singkat">Isian singkat</option><option value="Essay">Essay</option></select></label>
+          </div>
+          <button class="btn full" type="submit">Buat LKPD</button>
+        </form>
+      </div>
+      <div class="card" id="hasil"><p class="muted">Isi formulir di samping, lalu pilih Buat LKPD. Hasilnya muncul di sini.</p></div>
+    </div></section>
+
+    <section class="page" id="siswa"><div class="wrap" style="max-width:420px">
+      <div class="card">
+        <h2 style="font-size:20px">Portal siswa</h2>
+        <p class="muted" style="margin:4px 0 0">Masukkan kode akses dari gurumu.</p>
+        <form id="g"><input id="kode" required placeholder="Kode akses" style="margin-top:16px;letter-spacing:.15em"><button class="btn full" type="submit" style="margin-top:12px">Buka LKPD</button></form>
+        <div class="note" id="info" hidden></div>
+      </div>
+    </div></section>
+  </main>
+</div>
+<script>
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+const side=$('#side'),scrim=$('#scrim');
+function closeMenu(){side.classList.remove('open');scrim.classList.remove('open')}
+function go(id){
+  $$('.page').forEach(p=>p.classList.toggle('on',p.id===id));
+  $$('aside button').forEach(b=>b.classList.toggle('on',b.dataset.go===id));
+  closeMenu();window.scrollTo(0,0);
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)go(b.dataset.go)});
+$('#menu').onclick=()=>{side.classList.add('open');scrim.classList.add('open')};
+scrim.onclick=closeMenu;
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+$('#f').onsubmit=e=>{
+  e.preventDefault();
+  const m=esc($('#mapel').value),k=esc($('#kelas').value),t=esc($('#topik').value),n=Math.min(30,Math.max(1,+$('#jml').value||5)),tp=$('#tipe').value;
+  let items='';for(let i=1;i<=n;i++)items+=`<li class="q"><b>${i}.</b> Soal ${i} tentang ${t} (${tp.toLowerCase()}).</li>`;
+  $('#hasil').innerHTML=`<h3 style="font-size:18px">LKPD ${m}: ${t}</h3><p class="muted" style="margin:2px 0 0">Kelas ${k}</p><p style="font-size:14px;margin:12px 0 0">Bacalah setiap soal dengan teliti, lalu kerjakan sesuai petunjuk guru.</p><ol>${items}</ol>`;
+};
+$('#g').onsubmit=e=>{e.preventDefault();const i=$('#info');i.hidden=false;i.textContent='Pengambilan LKPD dari database belum dihubungkan.'};
+</script>
+</body>
+</html>
